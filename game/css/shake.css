@@ -1,0 +1,16 @@
+/*wheel*/
+body{background: #160805;}
+.shake_wrap{ width: 100%; height: 100%; background: #160805; margin: 0 auto;}
+.shake_wrap img{ width: 100%;}
+.shake_box .shake_bg_02{ position: relative; width: 100%;}
+.shake_box .num_box{ position: absolute;top: 0; width: 100%;}
+.shake_box .shake_num{ position: relative; background: #99282c; width: 160px; height: 24px; margin: 0 auto; line-height: 24px; border-radius: 8px; text-align: center; color: #fcd55a;}
+.shake_box .shake_num span{ display:inline-block; margin: 0 3px; width: 15px; text-align: center; color: #fff;text-shadow:1px 1px 0px #000; font-size: 1.2em;}
+.shake_info{ width: 100%; background: -moz-radial-gradient(#ce1233, #530000);background: -webkit-radial-gradient(#ce1233, #530000); }
+.shake_info .shake_txt{ width: 85%; border-radius: 5px; border:5px #ce1233 solid; background: url(../images/shake_text_bg.jpg) repeat; padding: 10px;margin:0 auto 10px auto;}
+.shake_txt .tit{ border-bottom: 20px solid #af2d18; border-right: 30px solid transparent; height: 0; width: 60px; color: #fff; line-height: 20px; padding-left: 10px; margin-bottom: 5px;}
+.e_frame{ display: none; position: absolute; width: 80%; height: 30%; left: 10%; top: 35%; background: #fff; border:1px #eee solid; border-radius: 3px; -moz-border-radius:3px; box-shadow: 0px 0px 5px #bcbcbc; }
+.e_frame .e_tit{ font-size: 1.2em; border-bottom: 1px #eee solid; padding: 2%;}
+.e_frame .e_con{ padding: 5% 2%;}
+.e_frame .e_close{ position: absolute; width: 20px; height: 20px; text-align: center; line-height: 20px; top: 0; right: 0;}
+

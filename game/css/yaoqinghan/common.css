@@ -1,0 +1,197 @@
+/*首页*/
+body{
+	max-width: 640px;
+}
+.index_page,.page,.m_page,.y_box{ 
+	width: 100%; 
+	height: 100%; 
+	font-size: 1em;
+}
+.page{
+	position: relative;
+	height: 100%; 
+	overflow: hidden;
+	left: 0; 
+	top: 0;
+}
+.y_box{
+	position: absolute;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+.y_box{
+	opacity: 1;
+	transition:opacity 4s;
+	-webkit-transition:opacity 4s;
+	-moz-transition:opacity 4s;
+	-o-transition:opacity 4s;
+}
+.z_hide{
+	display: none!important;
+}
+#img{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	z-index: 20;
+	background-color: transparent;
+}
+.down_box {
+	position: fixed;
+	bottom: 25px;
+	left: 50%;
+	z-index: 150;
+	margin-left: -20px;
+	animate:downAnimate 1.6s ease-in-out 0s infinite;
+	-moz-animation:downAnimate 1.6s ease-in-out 0s infinite;
+	-webkit-animation:downAnimate 1.6s ease-in-out 0s infinite;
+	-o-animation:downAnimate 1.6s ease-in-out 0s infinite;
+}
+.down_box span{
+	display: block;
+	width: 37px;
+	height: 16px;
+	background-position: 0 -46px;
+	background-size: 200%;
+}
+
+.music_box {
+	position: absolute;
+	top: 30px;
+	right: 10px;
+	z-index: 150;
+	margin-left: -20px;
+}
+.music_box span.audio{
+	display: block;
+	width: 26px;
+	height: 27px;
+	background-position: 0 0px;
+	background-size: 300%;
+}
+.one_page{
+	width: 100%;
+	height: 100%; 
+	background: url(../../images/yaoqinghan/53d7075120487.jpg);
+	background-size: cover;
+	background-position: 50% 50%;
+}
+.top_box,.bottom_box{
+	position: relative;
+	width: 100%;
+	height: 50%;
+}
+.top_box{
+	background: url(../../images/yaoqinghan/53d61c0049cba.jpg);
+	background-size: 100%;
+	
+}
+.bottom_box{
+	background: url(../../images/yaoqinghan/53d70af5cf4ba.jpg);
+	background-size: 100%;
+}
+.top_info,.bottom_info{
+	position: absolute;
+	width: 150px;
+	font-size: 12px;
+}
+.top_info{
+	top: 30px;
+	right: 70px;
+}
+.bottom_info{
+	bottom: 80px;
+	left: 30px;
+}
+.tit,.info{
+	width: 100%;
+	padding: 8px 16px;
+	overflow: hidden;
+	background: rgba(255,255,255,0.7);
+	font-size: 12px;
+	display: block;
+}
+.info{
+	max-height: 0;
+	padding: 0;
+	border-radius: 10px;
+	transition:height 0.7s;
+    -webkit-transition:height 0.7s;
+    -moz-transition:height 0.7s;
+    -o-transition:height 0.7s;
+}
+.on .info{
+	max-height: 300px;
+	padding: 8px 16px;
+
+}
+.tit{
+	border-radius: 10px;
+}
+.on.top_info .tit,.bottom_info .info{
+	border-radius: 10px 10px 0 0;
+}
+.on.bottom_info .tit,.top_info .info{
+	border-radius: 0 0 10px 10px;
+}
+.on.top_info .tit{
+	border-bottom: 1px #fff solid;
+}
+.on.bottom_info .tit{
+	border-top: 1px #fff solid;
+}
+.icon{
+	background-image: url(../../images/yaoqinghan/css_sprite01.png)!important;
+	background-repeat: no-repeat!important;
+}
+.tit_bt{
+	display: inline-block;
+	background-position: 0 -27px;
+	background-size: 370%;
+	width: 21px;
+	height: 21px;
+	-webkit-transform: rotate(0);
+	-moz-transform: rotate(0);
+	-ms-transform: rotate(0);
+	-o-transform: rotate(0);
+	transform: rotate(0);
+	transition:all 0.7s ease-in-out 0;
+    -webkit-transition:all 0.7s ease-in-out 0;
+    -moz-transition:all 0.7s ease-in-out 0;
+    -o-transition:all 0.7s ease-in-out 0;
+
+}
+.on .tit_bt{
+	-webkit-transform: rotate(405deg);
+	-moz-transform: rotate(405deg);
+	-ms-transform: rotate(405deg);
+	-o-transform: rotate(405deg);
+	transform: rotate(405deg);
+}
+
+/*向下箭头的动画*/
+@keyframes downAnimate{
+	0%{bottom:25px; opacity: 0}
+	50%{ bottom: 30px; opacity: 1;}
+	100%{bottom: 35px; opacity: 0;}
+}
+
+@-moz-keyframes downAnimate{
+	0%{bottom:25px; opacity: 0}
+	50%{ bottom: 30px; opacity: 1;}
+	100%{bottom: 35px; opacity: 0;}
+}
+
+@-webkit-keyframes downAnimate{
+	0%{bottom:25px; opacity: 0}
+	50%{ bottom: 30px; opacity: 1;}
+	100%{bottom: 35px; opacity: 0;}
+}
+
+@-o-keyframes downAnimate{
+	0%{bottom:25px; opacity: 0}
+	50%{ bottom: 30px; opacity: 1;}
+	100%{bottom: 35px; opacity: 0;}
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" version="1.1"
+xmlns="http://www.w3.org/2000/svg">
+
+<circle cx="100" cy="50" r="40" stroke="black"
+stroke-width="2" fill="red"/>
+<circle cx="250" cy="250" r="150.0" fill="#ffffff"/>
+<path d="M143.93398282201787 356.0660171779821 A150.0 150.0 , 0, 0,
+1,101.84674891072936 226.53483024396536 L250 250, Z" class="fill1"/>
+<path d="M101.84674891072936 226.53483024396536 A150.0 150.0 , 0, 0,
+1,181.90142503906804 116.34902137174478 L250 250, Z" class="fill2"/>
+<path d="M181.90142503906804 116.34902137174478 A150.0 150.0 , 0, 0,
+1,318.098574960932 116.34902137174484 L250 250, Z" class="fill3"/>
+<path d="M318.098574960932 116.34902137174484 A150.0 150.0 , 0, 0,
+1,398.1532510892706 226.53483024396536 L250 250, Z" class="fill4"/>
+<path d="M398.1532510892706 226.53483024396536 A150.0 150.0 , 0, 0,
+1,356.06601717798213 356.06601717798213 L250 250, Z" class="fill5"/>
+<circle cx="250" cy="250" r="3" style="fill: #00C"/>
+<line x1="129.7918471982869" y1="370.208152801713" x2="250" y2="250"
+style="stroke: #F00;stroke-width: 2px" id="finger">
+<animateTransform attributeName="transform" attributeType="XML" 
+type="rotate" from="0,250,250" begin="run("  to="20,250,250" dur="2"
+fill="freeze" style="stroke: #F00;stroke-width: 2px" id="line2"/>
+</line>
+</svg>

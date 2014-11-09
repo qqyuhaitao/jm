@@ -5,8 +5,7 @@
     slice = Array.prototype.slice,
     objectPrototype = Object.prototype,
     toString = objectPrototype.toString,
-    concat = Array.prototype.concat,
-    filter = Array.prototype.filter,
+    concat = Array.concat,
     cssNumber = {
         "columnCount": true,
         "fillOpacity": true,
@@ -22,28 +21,6 @@
         "zoom": true
     },
     empltyElem = doc.createElement('div'),
-    uniq = function(array){
-        return filter.call(array, function(value, key){
-            return array.indexOf(value) == key;
-        });
-    },
-    strToNode = function(str){
-        var elems;
-        if(k.isString(str)){
-            empltyElem.innerHTML = str;
-            elems = empltyElem.childNodes;
-            return elems;
-        }else{
-            return str;
-        }
-    },
-    nodeEach = function(node, callback){
-        var cloneNode = null;
-        k.each(node, function(){
-             cloneNode = this.cloneNode(true);
-             callback.call(cloneNode);
-        })
-    },
     toCamel = function(str){
         return str.replace(/-\w+/g, function(word){
             return word.substring(1,2).toUpperCase()+word.substring(2);
@@ -90,12 +67,6 @@
         isPainObject: function(value){
             return toString.call(value)==='[object Object]';
         },
-        isDocument: function(elem){
-            return elem && (elem.nodeType === 9) && (elem.nodeName === "#document");
-        },
-        isWindow: function(elem){
-            return elem && (elem == elem.window);
-        },
         makeArray: function(likeArray){
             return slice.call(likeArray);
         },
@@ -136,32 +107,22 @@
             }
             return obj
         },
-        merge: function( first, second ) {
-            var len = +second.length,
-            j,
-            i = first.length;
-            for ( j = 0; j < len; j++ ) {
-                first[ i++ ] = second[ j ];
-            }
-            first.length = i;
-            return first;
-        },
         map: function(elems, callback, arg){
             var value,
             i = 0,
             length = elems.length,
-            isArray = k.isArrayLike( elems ),
+            isArray = isArraylike( elems ),
             ret = [];
             if ( isArray ) {
                 for ( ; i < length; i++ ) {
-                    value = callback.call( elems[ i ], elems[i], i, arg );
+                    value = callback( elems[ i ], i, arg );
                     if ( value != null ) {
                         ret.push( value );
                     }
                 }
             } else {
                 for ( i in elems ) {
-                    value = callback.call( elems[ i ], elems[i], i, arg );
+                    value = callback( elems[ i ], i, arg );
                     if ( value != null ) {
                         ret.push( value );
                     }
@@ -182,7 +143,7 @@
 
 
 
-    //jquery 的实例化 dom操作库
+    //jquery 的实例化
     $ = function(selector, dom){
         return new $.prototype.init(selector, dom);
     }
@@ -209,23 +170,22 @@
                     selector = selector.replace('.','');
                     elems = dom.getElementsByClassName(selector);
                 }else if(/\s*<\w[^>]*>/.test(selector)){
-                    elems = strToNode(selector);
+                    var div = empltyElem;
+                    div.innerHTML = selector;
+                    elems = div.childNodes;
                 }else{
                     elems = dom.querySelectorAll(selector);
                 }
             }else if(selector.nodeType === 1){
                 self[0] = selector;
                 self.length = 1;
-                return self;
-            }else if(k.isWindow(selector) || k.isDocument(selector)){
-                elems[0] = selector;
             }else{
                 elems = selector;
             }
 
 //            self.context = dom;
 //            self.selector = selector;
-            return k.extend(this.constructor(), elems);
+            return k.extend(this, elems);
         },
         size: function(){
             return this.length;
@@ -235,30 +195,6 @@
         },
         last: function(){
             return this.eq(this.length - 1); 
-        },
-        not: function( str ){
-            var arr = [], strArr, len;
-            if(str && str.nodeType == 1){
-                arr = filter.call(this, function(value){
-                    if(value != str){ 
-                        return true;
-                    }else{
-                        return false;
-                    }
-                })
-                return $(arr);
-            }else if(k.isString(str)){
-                strArr = $(str),len = strArr.length;
-                arr = filter.call(this, function(val){
-                    for(var i = 0; i < len; i++){
-                        if(strArr[i] === val){
-                            return false;
-                        }
-                    }
-                    return true;
-                })
-                return $(arr);
-            }
         },
         eq: function(index){
             if(index>=0 && index < (this.length-1)){
@@ -284,6 +220,16 @@
                 return $(arr);
             }
         },
+        merge: function( first, second ) {
+            var len = +second.length,
+            j,
+            i = first.length;
+            for ( j = 0; j < len; j++ ) {
+                first[ i++ ] = second[ j ];
+            }
+            first.length = i;
+            return first;
+        },
         has: function(selector){
             var arr = [],
             self = this;
@@ -303,10 +249,11 @@
                 return $(arr);
             }
         },
-        map: function(callback){
-            return k.merge(this.constructor(), k.map(this, function(elem, i){
+        map: function(){
+            return k.extend(this.constructor, k.map(this, function(elem, i){
                 return callback.call(elem, i, elem);
             }));
+
         },
         addClass: function(classes){
             classes = classes.trim();
@@ -450,34 +397,19 @@
             }
         },
         offsetParent: function(){
-            return this.map(function(){
+            return this.map(function( {
                 var offsetParent = this.offsetParent || doc;
-                while ( offsetParent && $(offsetParent).css( "position" ) === "static" ) {
+                while ( offsetParent && $(offsetParent).css( "position" ) === "static" ) ) {
                     offsetParent = offsetParent.offsetParent;
                 }
                 return offsetParent || doc;
-            });
+            });)
         },
         position: function(){
-            if ( !this[ 0 ] ) {
-                return;
-            }
-            var offsetParent, offset,
-            elem = this[ 0 ],
-            parentOffset = { top: 0, left: 0 };
-            if ( $(elem).css( "position" ) === "fixed" ) {
-                offset = elem.getBoundingClientRect();
-            } else {
-                offsetParent = this.offsetParent();
-                offset = this.offset();
-            }
-            return {
-                top: offset.top - parentOffset.top - $(elem).css( "margin-top" ),
-                left: offset.left - parentOffset.left - $(elem).css( "margin-left" )
-            };
+
         },
         scrollTop: function(){
-            if(this.length <= 0){
+            if(this.length<=0){
                 return;
             }
             return ('scrollTop' in this[0] ? this[0].scrollTop : this[0].scrollY / ( scale || 1));
@@ -488,290 +420,103 @@
                 window.scrollTo(0, val);
             }
         },
+        width: function(){
+
+        },
+        height: function(){
+
+        },
         //dom操作
-        after: function(str){
-            var elem,
-            _this,
-            node = strToNode(str);
-            this.each(function(){
-                _this = this;
-                elem = this.nextSibling;
-                if(elem){
-                    nodeEach(node, function(){
-                        elem.parentNode.insertBefore(this , elem);
-                    })
-                }else{
-                    nodeEach(node, function(){
-                        _this.parentNode.appendChild(this);
-                    })
-                }
-            });
-            return this;
+        after: function(){
+            
         },
-        before: function(str){
-            var elem,
-            _this = this,
-            cloneNode = null,
-            node = strToNode(str);
-            this.each(function(){
-                _this = this;
-                if(_this){
-                    nodeEach(node, function(){
-                        _this.parentNode.insertBefore(this,_this);
-                    })
-                }
-            });
-            return this;
+        before: function(){
+
         },
-        append: function(str){
-            var elems = null, _this;
-            return this.each(function(){
-                if(str.nodeType === 1){
-                    this.appendChild(str)
-                }else{
-                    _this = this;
-                    elems = $(str);
-                    nodeEach(elems, function(){
-                        _this.appendChild(this);
-                    })
-                }
-            });
+        append: function(){
+
         },
-        appendTo: function(elem){
-            $(elem).append(this);
-            return this;
-        },
-        prepend: function(str){
-            var _this = null,
-            firstChild = null;
-            return this.each(function(){
-                _this = this;
-                firstChild = _this.childNodes[0];
-                if(firstChild){
-                    $(str).each(function(){
-                        _this.insertBefore(this, firstChild);
-                    })
-                }else{
-                    $(_this).append(str);
-                }
-            });
-        },
-        prependTo: function(elem){
-            $(elem).prepend(this);
-            return this;
+        appendTo: function(){
+
         },
         clone: function(){
-            return this.map(function(){
-                return this.cloneNode(true);
-            })
+
         },
         remove: function(){
-            return this.each(function(){
-                if(this.parentNode){
-                    this.parentNode.removeChild(this);
-                }
-            })
+            
         },
         empty: function(){
-            return this.each(function(){
-                this.innerHTML = '';
-            })
+
         },
-        insertAfter: function(elem){
-            var self = this,
-            _this = null,
-            parent = null,
-            nextSibling = null;
-            $(elem).each(function(){
-                _this = this;
-                nextSibling = _this.nextSibling;
-                parent = _this.parentNode;
-                if(parent && parent.lastChild == _this){
-                    parent.appendChild(this);
-                    self.each(function(){
-                        parent.appendChild(this);
-                    })
-                }else{
-                    self.each(function(){
-                        parent.insertBefore(this, nextSibling);
-                    })
-                }
-            })
-            return this;
+        insetAfter: function(){
+
         },
-        insertBefore: function(elem){
-            var self = this,
-            _this = null;
-            if(elem && elem.nodeType === 1){
-                return self.each(function( k , v ){
-                    elem.parentNode && elem.parentNode.insertBefore(this, v);
-                })
-            }else if(k.isString(elem)){
-                return self.each(function(){
-                    _this = this;
-                    k.each($(elem), function( k , v ){
-                        this.parentNode && this.parentNode.insertBefore(_this, v);
-                    })
-                })
-            }else{
-                return this;
-            }
+        insetBefore: function(){
+            
         },
-        replaceWith: function(elem){
-            var node = strToNode(elem),
-            _this = null;
-            return this.each(function(){
-               _this = this;
-                nodeEach(node, function(){
-                   _this.parentNode.insertBefore(this, _this);
-                });
-                this.parentNode.removeChild(_this);
-            });
+        prepend: function(){
+            
         },
-        replaceAll: function(elem){
-            var _this = null,
-            self = this;
-            $(elem).each(function(){
-                _this = this;
-                self.each(function(){
-                    _this.parentNode.insertBefore(this, _this);
-                });
-                _this.parentNode.removeChild(_this);
-            })
-            return this;
+        prependTo: function(){
+
         },
-        text: function(str){
-            if(str && str != ''){
-                return this.each(function(){
-                    this.innerText = str;
-                })
-            }else{
-                return this &&this[0].innerText;
-            }
+        relaceAll: function(){
+            
         },
-        wrapAll: function(elem){
-            var child = null,
-            wrap = strToNode(elem);
-            this[0] && this[0].parentNode.insertBefore(child = wrap[0],this[0]);
-            while(child.children[0]){
-                child = child.children[0];
-            }
-            child.appendChild(this[0]);
-            return this;
+        replaceWidth: function(){
+
         },
-        wrap: function(elem){
-            return this.each(function(){
-                $(this).wrapAll(elem);
-            });
+        text: function(){
+
+        },
+        wrap: function(){
+            
+        },
+        wrapAll: function(){
+            
         },
         unwrap: function(){
-            return this.each(function(){
-                $(this.parentNode).replaceWith(this.parentNode.children);
-            })
+
         },
         next: function(){
-            return this.map(function(){
-                return this.nextElementSibling;
-            })
+
         },
         prev: function(){
-            return this.map(function(val){
-                return this.previousElementSibling;
-            })
+
         },
         siblings: function(){
-            var arr = [],siblings;
-            return this.map(function(){
-                siblings = this.privousElementSibing;
-                while(siblings){
-                    arr.push.siblings;
-                    siblings = siblings.privousElementSibing;
-                }
-                siblings = this.nextElementSibling;
-                while(siblings){
-                    arr.push(siblings);
-                    siblings = siblings.nextElementSibing;
-                }
-                return arr;
-            });
+
         },
         children: function(){
-            return this.map(function(){
-                if(this.children){
-                    return k.map(this.children,function(){
-                        return this;
-                    })
-                }
-            })
+
         },
         parent: function(){
-            return this.map(function(){
-               return this.parentNode;
-            });
+
         },
-        parents: function(str){
-            var arr,
-            parent;
-            return this.map(function(){
-                arr = [];
-                parent = this.parentNode;
-                if(str && str != ''){
-                    while(parent && (parent == $(str)[0])){
-                        arr.push(parent);
-                        parent = parent.parentNode;
-                    }
-                }else{
-                    while(parent){
-                        arr.push(parent);
-                        parent = parent.parentNode;
-                    }
-                }
-                return arr;
-            });
+        parents: function(){
+
         }
+
 
 
     }
-    //获取元素的高度，不包括padding以及border
-    ;['height','width'].forEach(function(v){
-        $.prototype[v] = function(val){
-            var elem = this[0],
-            cssStyle = 0,
-            offsetStyle = 0,
-            clientStyle = 0,
-            upV = v.replace(/\w/, function(str){return str[0].toUpperCase()});
-            if(elem && (k.isWindow(this[0]) || k.isDocument(this[0]))){
-                return window['inner' + upV]/(scale || 1) || doc.documentElement['offset' + upV]/(scale || 1);
-            }
-
-            if(val || val === 0){
-                return this.css(v,val);
-            }else{
-                cssStyle = $(this[0]).css(v);
-                if(this && cssStyle){
-                    return cssStyle;
-                }else{
-                    clientStyle = this[0]['client' + upV] - $(this[0]).css('padding-' + upV);
-                    return clientStyle >= 0 ? clientStyle : this[0]['offset' + upV] - $(this[0]).css('padding-' + upV);
-                }
-            }
-        }
-    });
-
 
     $.prototype.init.prototype = $.prototype;
     window.kiki = $;
-    window.kiki.util = k;
+
+
+
+
+
+
+
 
 
 })(window, (function(){
     var scale = 1, 
     $wrapper = document.getElementById('wrapper'),
     $body = document.getElementsByTagName('body')[0],
-    windowWidth = document.documentElement && 
-    document.documentElement.clientWidth || 
-    document.body.clientWidth || 
-    window.innerWidth,
+    windowWidth = document.documentElement && document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth,
     scale = parseFloat(windowWidth / 320);
     $wrapper.style.zoom = scale;
     $body.style.display = 'block';

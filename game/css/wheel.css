@@ -1,0 +1,30 @@
+/*wheel*/
+body{background: #160805;}
+.wheel_wrap{ width: 100%; height: 100%; background: #160805; margin: 0 auto;}
+.wheel_wrap img{ width: 100%;}
+.wheel_top,.wheel_box,.wheel_his{ position: relative; width: 100%;}
+.wheel_top,.wheel_top p>img{max-height: 109px;}
+.top_img{ position: absolute; width: 100%; height: 100%; left: 0; top: 0; }
+.wheel_wrap .wheel_logo{ display: block; position: relative; width: 288px; height: 39px; top: 0;margin: 0 auto;}
+.wheel_wrap .wheel_tit{ display: block; position: relative; z-index: 10; width:166px; bottom:3px; margin: 0 auto;}
+.wheel_box p>img{max-height: 219px;}
+.wheel_zp{ position: absolute; width: 100%;height:100%; left: 0; top: 0; }
+.wheel_box .wheel{ position: relative; width:218px; height: 100%; margin: 0 auto;}
+.wheel_box .wheel_img{ display: block; position:relative; width: 218px; height: 217px; background: url(../images/wheel.png) no-repeat; background-size: 100%;}
+.wheel_box .wheel_img .reward{ color: #fff; font-weight: bold;width: 90px;text-align: center;height: 19px;}
+#rewards1 {-webkit-transform: rotate(195deg) translate(-89px,1px);}
+#rewards2 {-webkit-transform: rotate(119deg) translate(36px,-17px);}
+#rewards3 {-webkit-transform: rotate(51deg) translate(91px,67px);}
+#rewards4 {-webkit-transform: rotate(-31deg) translate(26px,147px);}
+#rewards5 {-webkit-transform: rotate(266deg) translate(-27px,141px);}
+.wheel_box .wheel_pointer{ display: block; position: absolute; width: 64px; height: 60px; bottom:87px;left:86px;}
+.wheel_an{position: absolute; width: 100%;left: 0; top: 26px; }
+.wheel_his .wheel_btn{ display: block; position: relative; width: 83px; height: 26px; margin: 0 auto; }
+.wheel_his .wheel_active{ position:relative; width: 92%; left: 4%; top: 8%; padding-bottom: 16px;}
+.wheel_his .wheel_active ul{  margin: 10px 0 0 10px; color: #fff;}
+.wheel_active .active_tit{ background: url(../images/wheel_title.png) no-repeat; background-size: 100%; width:105px; height: 19px; padding-left:10px; line-height: 19px; font-weight: bold; color: #910d0b;}
+.e_frame{ display: none; position: absolute; width: 80%; height: 30%; left: 10%; top: 35%; background: #fff; border:1px #eee solid; border-radius: 3px; -moz-border-radius:3px; box-shadow: 0px 0px 5px #bcbcbc; }
+.e_frame .e_tit{ font-size: 1.2em; border-bottom: 1px #eee solid; padding: 2%;}
+.e_frame .e_con{ padding: 5% 2%;}
+.e_frame .e_close{ position: absolute; width: 20px; height: 20px; text-align: center; line-height: 20px; top: 0; right: 0;}
+

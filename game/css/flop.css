@@ -1,0 +1,10 @@
+/*flop*/
+body{background: #5e0302;}
+.flop_wrap{ width: 100%; height: 100%; background: #5e0302; margin: 0 auto;}
+.flop_wrap img{ width: 100%;}
+.flop_ul{position: relative; width: 94%; margin: 0 auto;}
+.flop_ul li{ position: relative; width: 31%; float: left; margin:1%; }
+.flop_ul li .zheng{ position: relative; z-index: 1;background: #5e0302;}
+.flop_ul li .fan{ position: absolute; left: 0; top: 0; z-index: 0;transform: rotateY(180deg);-webkit-transform: rotateY(180deg);-moz-transform: rotateY(180deg);-o-transform: rotateY(180deg);background: #5e0302;}
+.flop_info{ width: 94%; color: #fff; padding: 3%;}
+
